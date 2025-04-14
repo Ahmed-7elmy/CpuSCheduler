@@ -2,7 +2,7 @@ package Schedulers;
 
 import java.util.List;
 import java.util.Queue;
-
+import process.Process;
 public class RoundRobinScheduler implements Scheduler {
     private Queue<Process> processQueue;
     private int timeQuantum;//timing period

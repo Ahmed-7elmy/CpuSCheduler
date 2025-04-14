@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Iterator;
-
+import process.Process;
 public class FCFSScheduler implements Scheduler{
     private Queue<Process> processQueue;
 
@@ -36,7 +36,7 @@ public class FCFSScheduler implements Scheduler{
         Iterator<Process> iterator = processQueue.iterator();
         while(iterator.hasNext()){
             Process p = iterator.next();
-            if(p.pid == processId){
+            if(p.getPid() == processId){
                 iterator.remove();
                 System.out.println("Removed process with PID: " + processId);
                 return;

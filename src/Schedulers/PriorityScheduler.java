@@ -1,7 +1,7 @@
 package Schedulers;
 
 import java.util.List;
-
+import process.Process;
 public class PriorityScheduler implements Scheduler{
     private List<Process> processList;//or Vector
     private boolean isPreemptive;
