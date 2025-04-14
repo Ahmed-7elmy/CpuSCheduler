@@ -6,6 +6,8 @@ public class Process {
    private int burstTime;
    private int remainingTime;
    private int priority;
+   private int completionTime;
+   private int startTime = -1;
 
     // Constructor
     public Process(int pid, int arrivalTime, int burstTime, int priority) {
@@ -24,6 +26,10 @@ public class Process {
         return burstTime;
     }
 
+    public int getCompletionTime() {
+        return completionTime;
+    }
+
     public int getPid() {
         return pid;
     }
@@ -36,12 +42,20 @@ public class Process {
         return remainingTime;
     }
 
+    public int getStartTime() {
+        return startTime;
+    }
+
     public void setArrivalTime(int arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
     public void setBurstTime(int burstTime) {
         this.burstTime = burstTime;
+    }
+
+    public void setCompletionTime(int completionTime){
+        this.completionTime = completionTime;
     }
 
     public void setPid(int pid) {
@@ -54,5 +68,9 @@ public class Process {
 
     public void setRemainingTime(int remainingTime) {
         this.remainingTime = remainingTime;
+    }
+
+    public void setStartTime(int startTime){
+        this.startTime = startTime;
     }
 }

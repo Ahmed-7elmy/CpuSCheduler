@@ -27,7 +27,7 @@ public class RoundRobinScheduler implements Scheduler {
     }
 
     @Override
-    public List<Process> getScedulerTimeline() {
+    public List<Process> getSchedulerTimeline() {
         return List.of()/*GuI*/;
     }
 }

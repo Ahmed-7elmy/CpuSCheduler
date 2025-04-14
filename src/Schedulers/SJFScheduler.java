@@ -35,7 +35,7 @@ public class SJFScheduler implements Scheduler{
     }
 
     @Override
-    public List<Process> getScedulerTimeline() {
+    public List<Process> getSchedulerTimeline() {
         return List.of()/*GuI*/;
     }
 }

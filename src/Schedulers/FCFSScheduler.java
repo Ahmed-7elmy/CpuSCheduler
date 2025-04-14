@@ -1,14 +1,22 @@
 package Schedulers;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Iterator;
+import java.util.*;
+
 import process.Process;
+
 public class FCFSScheduler implements Scheduler{
     private Queue<Process> processQueue;
+    private List<Process> timeline;
+    private int currentTime = 0;
+    private int totalWaitingTime;
+    private int totalTurnaroundTime;
 
-    //Constructor needs to be implemented
+
+    private PriorityQueue<Process> processList= new PriorityQueue<>(new Comparator<Process>() {
+        public int compare(Process p1, Process p2){
+            return Integer.compare(p1.getArrivalTime(),p2.getArrivalTime());
+        }});
+
     public FCFSScheduler() {
         this.processQueue = new LinkedList<>();
     }
@@ -18,18 +26,11 @@ public class FCFSScheduler implements Scheduler{
             throw new IllegalArgumentException("Process cannot be null");
         }
         processQueue.add(p);
-        System.out.println("Process has been added");
     }
 
     @Override
     public void removeProcess(int processId) {
-        if(processQueue == null){
-            System.out.println("Queue is not initialized");
-            return;
-        }
-
-        if(processQueue.isEmpty()){
-            System.out.println("Process queue is empty");
+        if(processQueue == null || processQueue.isEmpty()){
             return;
         }
 
@@ -38,20 +39,33 @@ public class FCFSScheduler implements Scheduler{
             Process p = iterator.next();
             if(p.getPid() == processId){
                 iterator.remove();
-                System.out.println("Removed process with PID: " + processId);
                 return;
             }
         }
-        System.out.println("Process with PID " + processId + " not found in queue");
     }
 
     @Override
     public void execute() {
+        if(processQueue == null || processQueue.isEmpty()){
+            return;
+        }
 
+        while (!processList.isEmpty()) {
+            Process current = processList.poll();
+
+            int startTime = Math.max(currentTime, current.getArrivalTime());
+            int completionTime = startTime + current.getBurstTime();
+            current.setStartTime(startTime);
+            current.setCompletionTime(completionTime);
+            for(int i = startTime; i <= completionTime; i++) {
+                timeline.add(current);
+            }
+            currentTime = completionTime;
+        }
     }
 
     @Override
-    public List<Process> getScedulerTimeline() {
-        return List.of() /*GuI*/;
+    public List<Process> getSchedulerTimeline() {
+        return timeline /*GuI*/;
     }
 }
