@@ -1,5 +1,4 @@
 package Schedulers;
-
 import java.util.List;
 
 public interface Scheduler {
