@@ -2,16 +2,18 @@ package Schedulers;
 
 import process.Process;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Comparator;
+import java.util.*;
 
-public class SJFScheduler implements Scheduler{
+public class SJFScheduler implements Scheduler {
     private boolean isPreemptive;
     private List<Process> timeline = new ArrayList<>();
-    private List<Process> processList = new ArrayList<>();
+    private List<Process> allProcesses = new ArrayList<>();
+    private List<Process> processBuffer = new ArrayList<>();
+    private List<Process> readyQueue = new ArrayList<>();
 
+    private int currentTime = 0;
+    private Process executingProcess = null;      // Used in non-preemptive mode
+    private int executionTimeLeft = 0;
 
     public SJFScheduler(boolean isPreemptive) {
         this.isPreemptive = isPreemptive;
@@ -19,94 +21,109 @@ public class SJFScheduler implements Scheduler{
 
     @Override
     public void addProcess(Process p) {
-        processList.add(p);
+        processBuffer.add(p);
     }
 
     @Override
     public void removeProcess(int Process_Id) {
-        processList.removeIf(p->p.getPid() == Process_Id);
+        processBuffer.removeIf(p -> p.getPid() == Process_Id);
+        allProcesses.removeIf(p -> p.getPid() == Process_Id);
+        readyQueue.removeIf(p -> p.getPid() == Process_Id);
+        if (executingProcess != null && executingProcess.getPid() == Process_Id) {
+            executingProcess = null;
+            executionTimeLeft = 0;
+        }
     }
-
     @Override
     public void execute() {
-        List<Process> allProcesses = new ArrayList<>(processList);
-        List<Process> readyQueue = new ArrayList<>();
-        int currentTime = 0;
-        int completed = 0;
-        int n = allProcesses.size();
+        allProcesses.addAll(processBuffer);
+        for (Process p : processBuffer) {
+            p.setRemainingTime(p.getBurstTime());
+        }
+        processBuffer.clear();
 
         for (Process p : allProcesses) {
-            p.setRemainingTime(p.getBurstTime());  // For preemptive use
+            if (p.getArrivalTime() <= currentTime && !readyQueue.contains(p) && p.getRemainingTime() > 0) {
+                readyQueue.add(p);
+            }
         }
 
-        while (completed < n) {
-            // Add available processes to the ready queue
-            for (Process p : allProcesses) {
-                if (p.getArrivalTime() <= currentTime && !readyQueue.contains(p) && p.getRemainingTime() > 0) {
-                    readyQueue.add(p);
-                }
-            }
-
-            // Select process with shortest burst or remaining time
-            Process currentProcess = null;
-            if (!readyQueue.isEmpty()) {
-                Comparator<Process> comparator = isPreemptive
-                        ? Comparator.comparingInt(Process::getRemainingTime)
-                        : Comparator.comparingInt(Process::getBurstTime);
-
-                currentProcess = readyQueue.stream()
-                        .filter(p -> p.getRemainingTime() > 0)
-                        .min(comparator)
-                        .orElse(null);
-            }
-
-
-            if (currentProcess != null) {
-                if (currentProcess.getStartTime() == -1) {
-                    currentProcess.setStartTime(currentTime);
-                }
-
-                // Log the timeline
-                Process running = new Process(currentProcess); // Copy to avoid overwriting info
-                running.setStartTime(currentTime);
-                running.setPid(currentProcess.getPid());
-                running.setBurstTime(1); // Only 1 unit executes per cycle
-                timeline.add(running);
-
-                currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
-
-                if (currentProcess.getRemainingTime() == 0) {
-                    currentProcess.setCompletionTime(currentTime + 1);
-                    completed++;
-                    readyQueue.remove(currentProcess);
-                }
-
-                currentTime++;
-            } else {
-                currentTime++; // Idle time
-            }
-
-            if (!isPreemptive && currentProcess != null) {
-                int execTime = currentProcess.getBurstTime();
-                for (int i = 0; i < execTime; i++) {
-                    Process slice = new Process(currentProcess);
-                    slice.setStartTime(currentTime);
-                    slice.setBurstTime(1);
-                    timeline.add(slice);
-                    currentTime++;
-                }
-                currentProcess.setCompletionTime(currentTime);
-                currentProcess.setRemainingTime(0);
-                readyQueue.remove(currentProcess);
-                completed++;
-            }
+        if (isPreemptive) {
+            executePreemptive();
+        } else {
+            executeNonPreemptive();
         }
     }
 
+    private void executePreemptive() {
+        Process currentProcess = readyQueue.stream()
+                .filter(p -> p.getRemainingTime() > 0)
+                .min(Comparator.comparingInt(Process::getRemainingTime))
+                .orElse(null);
+
+        if (currentProcess != null) {
+            if (currentProcess.getStartTime() == -1)
+                currentProcess.setStartTime(currentTime);
+
+            Process running = new Process(currentProcess);
+            running.setStartTime(currentTime);
+            running.setBurstTime(1);
+            timeline.add(running);
+
+            currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
+
+            if (currentProcess.getRemainingTime() == 0) {
+                currentProcess.setCompletionTime(currentTime + 1);
+                readyQueue.remove(currentProcess);
+            }
+        }
+
+        currentTime++;
+    }
+
+    private void executeNonPreemptive() {
+        if (executingProcess == null) {
+            executingProcess = readyQueue.stream()
+                    .filter(p -> p.getRemainingTime() > 0)
+                    .min(Comparator.comparingInt(Process::getBurstTime))
+                    .orElse(null);
+
+            if (executingProcess != null) {
+                if (executingProcess.getStartTime() == -1)
+                    executingProcess.setStartTime(currentTime);
+                executionTimeLeft = executingProcess.getBurstTime();
+            }
+        }
+
+        if (executingProcess != null) {
+            Process slice = new Process(executingProcess);
+            slice.setStartTime(currentTime);
+            slice.setBurstTime(1);
+            timeline.add(slice);
+
+            executingProcess.setRemainingTime(executingProcess.getRemainingTime() - 1);
+            executionTimeLeft--;
+
+            if (executionTimeLeft == 0) {
+                executingProcess.setCompletionTime(currentTime + 1);
+                readyQueue.remove(executingProcess);
+                executingProcess = null;
+            }
+
+            currentTime++;
+        }
+    }
 
     @Override
     public List<Process> getScedulerTimeline() {
-         return timeline;/*GuI*/
+        return timeline;
+    }
+
+    public boolean isFinished() {
+        return allProcesses.stream().allMatch(p -> p.getRemainingTime() == 0);
+    }
+
+    public int getCurrentTime() {
+        return currentTime;
     }
 }
-
