@@ -18,6 +18,16 @@ public class Process {
         this.priority = priority;
     }
 
+    public Process(Process p) {
+        this.pid = p.pid;
+        this.arrivalTime = p.arrivalTime;
+        this.burstTime = p.burstTime;
+        this.remainingTime = p.remainingTime;
+        this.priority = p.priority;
+        this.startTime = p.startTime;
+        this.completionTime = p.completionTime;
+    }
+
     public int getArrivalTime() {
         return arrivalTime;
     }
