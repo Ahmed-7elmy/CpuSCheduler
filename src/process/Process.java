@@ -5,7 +5,7 @@ public class Process {
    private int arrivalTime;
    private int burstTime;
    private int remainingTime;
-   private int priority;
+   private int priority=0;
     private int startTime = -1;
     private int endTime = -1;
 
