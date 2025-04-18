@@ -38,7 +38,9 @@ public class RoundRobinLive {
 
                     for (int i = 0; i < runTime; i++) {
                         System.out.println("Running P" + current.getPid() + " (t=" + currentTime + ")");
-                        try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+                        //fetch next user for #3abdo
+                        //function{return current.getPid()}
+                        try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }//h4elhom lw 3abdo 7atthom delay
                         currentTime++;
 
                         synchronized (allProcesses) {
@@ -59,14 +61,14 @@ public class RoundRobinLive {
                     }
                 } else {
                     System.out.println("CPU Idle at time " + currentTime);
-                    try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }
+                    try { Thread.sleep(3000); } catch (InterruptedException e) { e.printStackTrace(); }//h4elhom lw 3abdo 7atthom delay
                     currentTime++;
                 }
             }
         }).start();
     }
 
-    public void stop() {
+    public void stop() {//stop el makna
         running = false;
     }
 }
