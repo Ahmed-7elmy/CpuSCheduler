@@ -51,7 +51,12 @@ public class FCFSScheduler implements Scheduler{
     }
 
     @Override
+    public Process getNextProcess(){
+        return null;
+    }
+
     public List<Process> getScedulerTimeline() {
         return List.of() /*GuI*/;
     }
+
 }

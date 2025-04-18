@@ -6,7 +6,7 @@ import java.util.*;
 
 public class SJFScheduler implements Scheduler {
     private boolean isPreemptive;
-    private List<Process> timeline = new ArrayList<>();
+    private Queue<Process> timeline;
     private List<Process> allProcesses = new ArrayList<>();
     private List<Process> processBuffer = new ArrayList<>();
     private List<Process> readyQueue = new ArrayList<>();
@@ -67,7 +67,7 @@ public class SJFScheduler implements Scheduler {
 
             Process running = new Process(currentProcess);
             running.setStartTime(currentTime);
-            running.setBurstTime(1);
+            //running.setBurstTime(1);
             timeline.add(running);
 
             currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
@@ -98,7 +98,7 @@ public class SJFScheduler implements Scheduler {
         if (executingProcess != null) {
             Process slice = new Process(executingProcess);
             slice.setStartTime(currentTime);
-            slice.setBurstTime(1);
+            //slice.setBurstTime(1);
             timeline.add(slice);
 
             executingProcess.setRemainingTime(executingProcess.getRemainingTime() - 1);
@@ -115,8 +115,14 @@ public class SJFScheduler implements Scheduler {
     }
 
     @Override
-    public List<Process> getScedulerTimeline() {
-        return timeline;
+    public Process getNextProcess(){
+        if(timeline.isEmpty()){
+            return new Process(-1,0,0,0);
+        }
+        if(timeline.peek().getStartTime() > currentTime){
+            return new Process(-1,0,0,0);
+        }
+        return timeline.poll();
     }
 
     public boolean isFinished() {
