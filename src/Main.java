@@ -1,5 +1,5 @@
 import Schedulers.RoundRobinLive;
-import Schedulers.RoundRobinScheduler;
+//import Schedulers.RoundRobinScheduler;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -18,11 +18,11 @@ public class Main {
         // Initial processes
         scheduler.addProcess(new Process(1, 0, 5, 1));
         scheduler.addProcess(new Process(2, 2, 4, 1));
-        //scheduler.addProcess(new Process(3, 4, 6, 1));
+        //scheduler.addProcess(new Process(3, 4, 6, 1));11 2 1 2 3 12 12 1
 
-        scheduler.execute();
+        scheduler.execute();////////
 
-        // User input thread
+        // User input thread//add live process
         new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
             while (true) {

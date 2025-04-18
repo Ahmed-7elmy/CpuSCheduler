@@ -6,5 +6,4 @@ public interface Scheduler {
     void removeProcess(int Process_Id);
     void execute();
     List<Process>getScedulerTimeline();
-
 }
