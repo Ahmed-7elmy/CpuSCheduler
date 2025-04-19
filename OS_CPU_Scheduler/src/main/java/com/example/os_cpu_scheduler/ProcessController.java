@@ -56,7 +56,7 @@ public class ProcessController {
     private TableColumn<Process, Integer> PriorityCol;
 
     // Global variables
-    private int quantum = 1;
+    private int quantum = 0;
     private boolean quantumSet = false;
     ObservableList<Process> processes = FXCollections.observableArrayList();
 
@@ -159,7 +159,7 @@ public class ProcessController {
 
                 if (HelloController.Algorithm.contains("Round") && quantum == 0) {
                     quantum = Integer.parseInt(additionalTextField.getText());
-                    additionalSection.setDisable(true); // Disable the additional field after setting the quantum
+                    additionalSection.setDisable(true);
                     quantumSet = true;
                 }
             }
@@ -213,6 +213,8 @@ public class ProcessController {
         if (!P_table.getItems().isEmpty()) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LivePage.fxml"));
             Stage LiveStage = new Stage();
+            Image icon = new Image(getClass().getResourceAsStream("icon.png"));
+            LiveStage.getIcons().add(icon);
             LiveStage.setTitle("CPU Scheduler");
             LiveStage.setScene(new Scene((Pane)loader.load()));
             LiveStage.show();

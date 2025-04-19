@@ -51,17 +51,23 @@
             <Pane prefHeight="119.0" prefWidth="1283.0">
                <children>
                   <Pane fx:id="ganttChart" prefHeight="66.0" prefWidth="1248.0" />
-                  <HBox layoutX="309.0" layoutY="79.0" prefHeight="36.0" prefWidth="628.0">
+                  <HBox layoutX="279.0" layoutY="83.0" prefHeight="36.0" prefWidth="703.0">
                      <children>
                         <Label fx:id="timeLabel" prefHeight="36.0" prefWidth="110.0" text="Time = 0s">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
                         </Label>
                         <Label fx:id="avgTTLabel" layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="277.0" text="Average Turnaround Time = 0s">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
                         </Label>
                         <Label fx:id="avgWTLabel" layoutX="148.0" layoutY="10.0" prefHeight="36.0" prefWidth="239.0" text="Average Waiting Time = 0s">
                            <font>

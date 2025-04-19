@@ -37,6 +37,8 @@ public class HelloController implements Initializable {
         if(Algorithm != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Process.fxml"));
             Stage processStage = new Stage();
+            Image icon = new Image(getClass().getResourceAsStream("icon.png"));
+            processStage.getIcons().add(icon);
             processStage.setTitle("CPU Scheduler");
             processStage.setScene(new Scene((Pane)loader.load()));
             processStage.show();

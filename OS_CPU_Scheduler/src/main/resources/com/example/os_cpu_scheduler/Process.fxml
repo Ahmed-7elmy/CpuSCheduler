@@ -79,14 +79,14 @@
                               <Insets left="20.0" right="20.0" />
                            </FlowPane.margin>
                         </VBox>
-                        <VBox fx:id="additionalSection" alignment="CENTER" layoutX="392.0" layoutY="10.0" prefHeight="200.0" prefWidth="125.0">
+                        <VBox fx:id="additionalSection" alignment="CENTER" layoutX="392.0" layoutY="10.0" prefHeight="200.0" prefWidth="125.0" visible="false">
                            <children>
                               <Label fx:id="additionalFieldLabel">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="additionalTextField" prefHeight="31.0" prefWidth="134.0" visible="false" />
+                              <TextField fx:id="additionalTextField" prefHeight="31.0" prefWidth="134.0" />
                            </children>
                            <FlowPane.margin>
                               <Insets left="20.0" />

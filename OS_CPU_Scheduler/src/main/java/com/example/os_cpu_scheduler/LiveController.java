@@ -105,8 +105,6 @@ public class LiveController implements Runnable {
         P_table.setItems(processesList);
 
         addProcessBtn.setOnAction(event -> onAddBtnClick());
-        //startButton.setOnAction(event -> executScheduler());
-        //pauseButton.setOnAction(event -> t.cancel(false));
 
         prioritySection.managedProperty().bind(prioritySection.visibleProperty());
 
@@ -155,7 +153,6 @@ public class LiveController implements Runnable {
         try {
             Platform.runLater(() -> {
                 while (!processes.isEmpty() && time == processes.get(0).getArrivalTime()) {
-                    System.out.println("iam here");
                     scheduler.addProcess(processes.get(0));
                     processesList.add(processes.remove(0));
                 }
@@ -170,7 +167,7 @@ public class LiveController implements Runnable {
                 int width = 50;
                 int length = 30;
 
-                timeLabel.setText("Time = " + time + " s");
+                timeLabel.setText("Time = " + time + "s");
                 // Calculate average turnaround time and average waiting time
                 calculateAndDisplayAverages();
 
