@@ -1,4 +1,3 @@
-
 import model.Process;
 import scheduler.PriorityScheduler;
 import scheduler.Scheduler;
@@ -23,7 +22,6 @@ public class Main {
         for (Process process : processes)
             scheduler.addProcess(process);
 
-
         // print the processes in a table
         System.out.println("Processes:");
         System.out.printf("%-15s %-15s %-15s %-15s\n", "Process ID", "Arrival Time", "Burst Time", "Priority");
@@ -39,6 +37,9 @@ public class Main {
         System.out.println("Scheduler Timeline:");
         System.out.printf("%-15s %-15s %-15s %-15s\n", "Time", "Process ID", "Remaining Time", "Priority");
         System.out.println("--------------------------------------------------------");
+
+
+
         while (!scheduler.isDone()) {
             scheduler.tick();
             Process current = scheduler.getCurrentProcess();

@@ -1,7 +1,6 @@
 package scheduler;
 
 import model.Process;
-
 import java.util.*;
 
 public class PriorityScheduler implements Scheduler {
@@ -63,7 +62,7 @@ public class PriorityScheduler implements Scheduler {
                 .min(Comparator.comparing(Process::getPriority).thenComparing(Process::getArrivalTime))
                 .orElse(null);
     }
-
+    
     @Override
     public void runCurrentProcesses() {
         // Run all processes non-live (no tick)

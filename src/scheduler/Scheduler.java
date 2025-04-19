@@ -11,18 +11,15 @@ public interface Scheduler {
     // Advance time by 1-second and update the process statuses
     void tick();
 
-    // Get the current time in seconds
-    int getCurrentTime();
-
     // Get the current running process (if any)
     Process getCurrentProcess();
 
-    // Get all completed processes (once they finish execution)
     List<Process> getAllProcesses();
 
     // Get all completed processes (once they finish execution)
     List<Process> getCompletedProcesses();
 
+    int getCurrentTime();
     // Is the scheduler finished (all processes completed)?
     boolean isDone();
 
