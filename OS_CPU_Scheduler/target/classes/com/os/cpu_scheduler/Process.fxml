@@ -135,7 +135,7 @@
                               <Insets bottom="25.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="71.0" layoutY="173.0" mnemonicParsing="false" onAction="#notLiveScheduling" prefHeight="40.0" prefWidth="196.0" text="Not Live Scheduling">
+                        <Button layoutX="71.0" layoutY="173.0" mnemonicParsing="false" onAction="#notLiveScheduling" prefHeight="40.0" prefWidth="196.0" text="Run Processes ">
                            <font>
                               <Font size="18.0" />
                            </font>

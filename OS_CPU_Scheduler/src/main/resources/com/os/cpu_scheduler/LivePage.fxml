@@ -78,7 +78,7 @@
                   </HBox>
                </children>
             </Pane>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox fx:id="processFields" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -140,7 +140,7 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="1246.0">
+            <HBox fx:id="addProcessBox" alignment="CENTER" prefHeight="43.0" prefWidth="1246.0">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
