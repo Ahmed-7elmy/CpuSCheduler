@@ -32,6 +32,18 @@ public class Process {
         double blue = Math.random();
         this.processColor = Color.color(red, green, blue);
     }
+    public Process(Process process) {
+        this.pid = process.pid;
+        this.arrivalTime = process.arrivalTime;
+        this.burstTime = process.burstTime;
+        this.remainingTime = process.remainingTime;
+        this.priority = process.priority;
+        this.completionTime = process.completionTime;
+        this.startTime = process.startTime;
+        this.endTime = process.endTime;
+        this.processColor = process.processColor;
+
+    }
     
     public Process(int pid, int arrivalTime, int burstTime) {
         this(pid, arrivalTime, burstTime, 1);
