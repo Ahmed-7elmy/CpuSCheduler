@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="OS_CPU_Scheduler" />
+        <module name="CPU_Scheduler" />
       </profile>
     </annotationProcessing>
   </component>
