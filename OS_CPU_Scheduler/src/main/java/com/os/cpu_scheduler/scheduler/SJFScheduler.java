@@ -77,6 +77,7 @@ public class SJFScheduler extends Scheduler {
             
             if (currentProcess.getRemainingTime() == 0) {
                 currentProcess.setCompletionTime(currentTime + 1);
+                completedProcesses.add(currentProcess);
                 readyQueue.remove(currentProcess);
             }
         }
@@ -108,6 +109,7 @@ public class SJFScheduler extends Scheduler {
             
             if (executionTimeLeft == 0) {
                 executingProcess.setCompletionTime(currentTime + 1);
+                completedProcesses.add(executingProcess);
                 readyQueue.remove(executingProcess);
                 executingProcess = null;
             }
