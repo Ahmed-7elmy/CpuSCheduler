@@ -84,8 +84,10 @@ public class LiveController implements Runnable {
     
     @FXML
     private TableColumn<Process, Integer> startTimeCol;
-    
-    
+    @FXML
+    private Button pauseButton;
+
+
     // Global variables
     private boolean isLive;
     private ArrayList<Process> processes;
@@ -98,7 +100,8 @@ public class LiveController implements Runnable {
     private ArrayList<Shape> holder = new ArrayList<>(2);
     private int last_pid = -1;
     private ObservableList<Process> processesList = FXCollections.observableArrayList();
-    
+    private volatile boolean paused = false;
+
     @FXML
     public void initialize() {
         // Table columns
@@ -120,9 +123,15 @@ public class LiveController implements Runnable {
             priorityCol.setVisible(true);
             prioritySection.setVisible(true);
         }
+        pauseButton.setOnAction(event -> togglePause());
     }
-    
-    
+
+    private void togglePause() {
+        paused = !paused;
+        pauseButton.setText(paused ? "Resume" : "Pause");
+    }
+
+
     public void receivedData(ArrayList<Process> processes, int quantum, boolean isLive) {
         this.processes = processes;
         this.isLive = isLive;
@@ -164,7 +173,10 @@ public class LiveController implements Runnable {
     @Override
     public void run() {
         try {
+            if(paused) return;
+
             Platform.runLater(() -> {
+                if(paused) return;
                 while (!processes.isEmpty() && time == processes.get(0).getArrivalTime()) {
                     scheduler.addProcess(processes.get(0));
                     processesList.add(processes.remove(0));
